@@ -1,0 +1,71 @@
+/**************/
+/* WINDOW.IDL */
+/**************/
+
+#include <somobj.idl>  // get definition of your parent
+#include <somcls.idl>  // parent of the metaclass
+
+typedef somToken HWND;  // get rid of the SOM compiler warnings
+typedef somToken HAB;
+typedef somToken HMQ;
+typedef somToken HPS;
+typedef somToken RECTL;
+
+interface Window: SOMObject  // Window is a subclass of SOMObject
+{
+    attribute string text;
+    attribute long x;
+    attribute long y;
+    attribute long w;
+    attribute long h;
+    attribute HWND hwndFrame;   
+    attribute HWND hwndWindow;
+    attribute HWND hwndParent;
+    attribute HWND hwndOwner;
+    attribute HAB  hab;
+    attribute HMQ  hmq;
+
+    short UniqueID();
+    Window WindowFromID(in short ID);
+
+    void ProcessEvents();
+    void SetSize(in long x, in long y, in long w, in long h);
+
+#ifdef __SOMIDL__
+    implementation {
+
+    //# Class Modifiers
+    releaseorder:
+        _get_text, _set_text,
+        _get_x, _set_x,
+        _get_y, _set_y,
+        _get_w, _set_w,
+        _get_h, _set_h,
+        _get_hwndFrame, _set_hwndFrame,
+        _get_hwndWindow, _set_hwndWindow,
+        _get_hwndParent, _set_hwndParent,
+        _get_hwndOwner, _set_hwndOwner,
+        _get_hab, _set_hab,
+        _get_hmq, _set_hmq,
+        UniqueID, WindowFromID, ProcessEvents, SetSize;
+
+    //# Method Modifiers
+    somInit: override;
+    somUninit: override;
+
+    passthru C_h_before =
+        "  #define INCL_WIN"
+        "  #include <os2.h>"
+    ;
+
+    passthru C_h_after =
+        "  extern Window gBaseWindow;"
+    ;
+
+    //# Data Modifiers
+        text:            nodata;
+
+    };
+#endif /* __SOMIDL__ */
+};
+

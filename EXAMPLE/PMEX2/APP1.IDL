@@ -1,0 +1,25 @@
+/************/
+/* APP1.IDL */
+/************/
+
+#include <client.idl>  // get definition of your parent
+
+interface App1: Client // App1 is a subclass of Client
+{
+    attribute short timesClicked;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        _get_timesClicked, _set_timesClicked;
+
+    //# Method Modifiers
+    Button1Click: override;
+
+    somInit: override;
+};
+#endif
+};
+

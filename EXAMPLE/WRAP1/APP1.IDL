@@ -1,0 +1,31 @@
+/************/
+/* APP1.IDL */
+/************/
+
+#include <client.idl>  // get definition of your parent
+
+interface PushButton;
+
+interface App1: Client // App1 is a subclass of Client
+{
+    attribute short timesPressed;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        _get_timesPressed, _set_timesPressed;
+
+    //# Method Modifiers
+
+    PushedButton: override;
+
+    somInit: override;
+
+    //# Instance variables  /* noone outside of app1 needs to access pb */
+    PushButton pb;
+};
+#endif
+};
+

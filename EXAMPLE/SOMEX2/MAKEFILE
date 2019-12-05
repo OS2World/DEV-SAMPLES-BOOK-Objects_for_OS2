@@ -1,0 +1,26 @@
+#************
+#* makefile *
+#************
+
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+
+install: test2.exe
+
+run:
+        test2
+
+.c.obj:
+    icc -Ms -Q -Ti+ -c $<
+
+test2.exe: ex2.obj test2.obj
+    link386 /CO /PM:VIO test2.obj ex2.obj,test2.exe,nul,somtk;
+
+ex2.ih: ex2.idl
+    sc ex2
+
+ex2.obj: ex2.ih
+
+test2.obj: test2.c ex2.ih
+
+

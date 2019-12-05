@@ -1,0 +1,20 @@
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+
+install: test1.exe
+
+run:
+        test1
+
+test1.exe: ex1.obj test1.obj
+    link386 /CO /PM:VIO test1 ex1, test1, test1, somtk;
+
+test1.obj: test1.c
+    icc -c -Q -Ti+ test1.c
+
+ex1.obj: ex1.c ex1.ih
+    icc -c -Q -Ti+ ex1.c
+
+ex1.ih: ex1.idl
+    sc ex1
+

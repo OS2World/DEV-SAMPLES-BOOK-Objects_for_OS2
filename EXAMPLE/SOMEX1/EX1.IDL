@@ -1,0 +1,6 @@
+#include <somobj.idl>  // get definition of your parent
+
+interface ExampleOne: SOMObject  // ExampleOne is a subclass of SOMObject
+{
+        void xSayHi();  // my very first method
+};

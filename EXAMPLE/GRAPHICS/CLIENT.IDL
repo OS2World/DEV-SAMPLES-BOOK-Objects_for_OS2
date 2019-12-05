@@ -1,0 +1,47 @@
+/**************/
+/* CLIENT.IDL */
+/**************/
+
+#include <window.idl>  // get definition of your parent
+
+interface Graphic;
+
+interface Client: Window  // your classname and your parent(s)
+{
+    attribute Graphic gr;
+
+//# Event Handler Methods
+    void CharPress(in char key, in short kbmState);
+    void VirtCharPress(in short vkey, in short kbmState);
+
+    void Button1Press(in short x, in short y); /* x,y when pressed */
+    void Button1Click(in short x, in short y); /* x,y when pressed */
+    void Button1DblClick(in short x, in short y); /* x,y when pressed */
+
+    void Button1DragBegin(in short x, in short y);
+    void Button1Drag(in short x, in short y);
+    void Button1DragEnd(in short x, in short y);
+
+    void PaintWindow(in RECTL *rcl);
+    void ReSize(in short w, in short h);
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        _get_gr, _set_gr,
+        CharPress, VirtCharPress,
+        Button1Press, Button1Click, Button1DblClick,
+        Button1DragBegin, Button1Drag, Button1DragEnd,
+        PaintWindow, ReSize;
+
+
+    //# Method Modifiers
+    somInit: override;
+    somUninit: override;
+};
+#endif
+
+};
+

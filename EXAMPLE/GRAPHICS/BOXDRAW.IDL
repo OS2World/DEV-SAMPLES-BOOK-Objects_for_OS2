@@ -1,0 +1,37 @@
+/************/
+/* BOXDRAW.IDL */
+/************/
+
+#include <client.idl>  // get definition of your parent
+
+interface Boxdraw: Client // Boxdraw is a subclass of Client
+{
+    attribute short anchorX;
+    attribute short anchorY;
+    attribute short lastX;
+    attribute short lastY;
+    attribute boolean wireExists;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        _get_anchorX, _set_anchorX,
+        _get_anchorY, _set_anchorY,
+        _get_lastX, _set_lastX,
+        _get_lastY, _set_lastY,
+        _get_wireExists, _set_wireExists;
+
+    //# Method Modifiers
+    CharPress: override;
+    Button1Click: override;
+    Button1DragBegin: override;
+    Button1Drag: override;
+    PaintWindow: override;
+
+    somInit: override;
+};
+#endif
+};
+

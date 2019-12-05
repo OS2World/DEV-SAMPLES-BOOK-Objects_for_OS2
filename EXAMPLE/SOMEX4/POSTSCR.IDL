@@ -1,0 +1,38 @@
+#include <somobj.idl>
+
+interface PostScriptSpeak: SOMObject
+{
+    attribute string currentFont;  /* the font and style in a string */
+    attribute long  currentHPos;  /* current horizontal position */
+    attribute long  currentVPos;  /* current vertical position */
+    attribute long  fontSize; /* the font's "scale" */
+    readonly attribute somToken psFilePtr;
+
+    void outputPostScriptBuffer(in string psBuffer);
+    // take a buffer of text and output using PostScript format.
+
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+        _get_currentFont, _set_currentFont,
+        _get_currentHPos, _set_currentHPos,
+        _get_currentVPos, _set_currentVPos,
+        _get_fontSize, _set_fontSize,
+        _get_psFilePtr,
+        outputPostScriptBuffer;
+
+    //# instance variable
+    long lineIncrement;
+
+    override: somInit;
+    override: somUninit;
+
+    currentFont: noset;  /* we need to take special action on this attr. */
+    fontSize: noset;  /* we need to take special action on this attr. */
+
+};
+#endif
+};
+
+

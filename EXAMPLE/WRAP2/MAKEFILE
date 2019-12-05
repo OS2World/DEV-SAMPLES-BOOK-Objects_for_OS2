@@ -1,0 +1,43 @@
+
+# #############################
+#  MAKEFILE for wrapped controls example two
+# #############################
+
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+SMEMIT = ih;h;c;
+SRCS = window. client. pushb. app1.
+HDRS = $(SRCS:.=.ih)
+OBJS = $(SRCS:.=.obj) wrap2.obj
+
+install: wrap2.exe
+
+.SUFFIXES : .ih .sc .lib .def .dll .idl
+
+run: wrap2.exe
+        wrap2
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+.idl.ih:
+    sc $*
+
+wrap2.exe: $(HDRS) $(OBJS)
+    link386 /NOL /NOI /CO /PM:PM $(OBJS), wrap2.exe, nul,somtk;
+
+window.ih: window.idl
+window.obj: window.ih window.c
+
+client.ih: client.idl
+client.obj: client.ih client.c
+
+pushb.ih: pushb.idl
+pushb.obj: pushb.ih pushb.c
+
+app1.ih: app1.idl
+app1.obj: app1.ih app1.c
+
+wrap2.obj: wrap2.c
+
+

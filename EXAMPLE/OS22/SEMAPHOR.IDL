@@ -1,0 +1,67 @@
+#include <somcls.idl>
+#include <gfile.idl>
+
+interface Semaphore;
+
+typedef somToken HEV;  // get rid of the SOM compiler warnings
+
+interface M_Semaphore: SOMClass
+// use the M_Semaphore class as a constructor
+{
+
+    Semaphore CreateEventSem(in string semName);
+    // returns a named Event Semaphore object
+
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+        CreateEventSem;
+
+};
+#endif
+};
+
+interface Semaphore: GenericFile
+{
+    readonly attribute HEV hEventSem;
+
+    long WaitForEvent(in unsigned long waitType);
+    //
+    // WaitForEvent blocks current thread for a period of time
+    // controlled by the waitType parameter.  Blocking will stop when
+    // an event (associated with somSelf) occurs.
+    //
+    // waitType's include:
+    // -1, or SEM_INDEFINITE_WAIT
+    //   Wait indefinitely, blocking thread until event occurs or is posted.
+    // 0, or SEM_IMMEDIATE_RETURN
+    //   No wait, quick check to see if event has been posted.
+    // Any positive value.  A timeout in milliseconds.
+    //
+    // return values include:
+    // 0.  when event indicated in somSelf is posted.
+    // ERROR_TIMEOUT.  timeout occurs with no event posted.
+    // ERROR_INTERRUPT.
+
+    void PostSemaphore();
+    // for posting a semaphore.  for informing other threads or processing
+    // that an event has occured.
+
+    unsigned long ResetSemaphore();
+    // to reset a semaphore.
+    // returns the count of posts made before this current reset.
+
+#ifdef __SOMIDL__
+implementation
+{
+    metaclass = M_Semaphore;  //# identify Semaphore's metaclass
+    releaseorder:
+        _get_hEventSem, WaitForEvent, PostSemaphore, ResetSemaphore;
+
+    override: somInit;
+    override: somUninit;
+};
+#endif
+};
+

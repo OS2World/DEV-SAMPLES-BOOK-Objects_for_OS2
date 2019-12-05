@@ -1,0 +1,30 @@
+
+################################################
+#  ###   MAKEFILE for multiple inheritance
+################################################
+CC = icc
+HDRS = gfile.ih eafile.ih
+OBJS = eaview.obj gfile.obj eafile.obj
+TARGET = eaview.exe
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+eaview.exe: gfile.obj eafile.obj eaview.obj
+    link386 /CO /PM:VIO /NOL $(OBJS),eaview.exe,nul,somtk;
+
+hdrs: $(HDRS)
+
+gfile.obj: gfile.c gfile.ih
+
+gfile.ih: gfile.idl
+        sc -u gfile
+
+eafile.obj: eafile.c eafile.ih
+
+eafile.ih: eafile.idl
+        sc -u eafile
+
+eaview.obj: eaview.c eafile.ih
+
+

@@ -1,0 +1,40 @@
+
+################################################
+#  ###   MAKEFILE for multiple inheritance
+################################################
+CC = icc
+HDRS = gfile.ih semaphor.ih
+OBJS = gfile.obj semaphor.obj timeout.obj killto.obj
+TOBJS = timeout.obj gfile.obj semaphor.obj
+KOBJS = killto.obj gfile.obj semaphor.obj
+TARGET = timeout.exe
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+all: $(HDRS) $(OBJS) timeout.exe killto.exe
+
+timeout.exe: $(TOBJS)
+    link386 /CO /PM:VIO /NOL /NOI $(TOBJS),timeout.exe,nul,somtk;
+
+killto.exe: $(KOBJS)
+    link386 /CO /PM:VIO /NOL /NOI $(KOBJS),killto.exe,nul,somtk;
+
+hdrs: $(HDRS)
+
+gfile.obj: gfile.c gfile.ih
+
+gfile.ih: gfile.idl
+        sc -u gfile
+
+semaphor.obj: semaphor.c semaphor.ih
+
+semaphor.ih: semaphor.idl
+        sc -u semaphor
+
+timeout.obj: timeout.c semaphor.h
+    icc -Q -Ti+ -Gm+ -c timeout.c
+
+killto.obj: killto.c semaphor.h
+
+

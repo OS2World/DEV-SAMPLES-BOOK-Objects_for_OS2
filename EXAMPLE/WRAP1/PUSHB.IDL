@@ -1,0 +1,21 @@
+/*************/
+/* PUSHB.IDL */
+/*************/
+
+#include <window.idl>  // get definition of your parent
+
+interface PushButton: Window     // your classname and your parent(s)
+{
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Method Modifiers
+    somInit: override;
+};
+#endif
+
+};
+
+
+

@@ -1,0 +1,47 @@
+
+/*************/
+/* ENTRY.IDL */
+/*************/
+#ifndef entry_idl
+#define entry_idl
+
+#include <window.idl>  // get definition of your parent
+
+interface EntryField;
+
+// Metaclass definition
+
+interface M_EntryField: M_Window
+{
+
+#ifdef __SOMIDL__
+implementation {
+    //# Class Modifiers
+    filestem = entry;
+    functionprefix = m_;
+
+    //# Method Modifiers
+    override: CreateWindow;
+};
+#endif
+};
+
+// Class definition
+
+interface EntryField: Window     // your classname and your parent(s)
+{
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    filestem = entry;
+    metaclass = M_EntryField;
+
+};
+#endif
+
+};
+
+#endif  /* #ifndef entry_idl */
+

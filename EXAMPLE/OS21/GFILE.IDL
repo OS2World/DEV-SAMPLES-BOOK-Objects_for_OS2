@@ -1,0 +1,30 @@
+#include <somobj.idl>
+
+interface GenericFile: SOMObject
+{
+    attribute string path;
+    attribute string name;
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+        _get_path, _set_path,
+        _get_name, _set_name;
+
+    passthru C_h_before =
+        "  #define INCL_DOS"
+        "  #include <os2.h>"
+    ;
+
+    override: somInit;
+    override: somUninit;
+
+//# Data modifiers
+    path: noset;
+    name: noset;
+};
+#endif
+
+};
+
+

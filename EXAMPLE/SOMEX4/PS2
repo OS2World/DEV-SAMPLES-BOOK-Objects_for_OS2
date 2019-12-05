@@ -1,0 +1,25 @@
+% --------- Some useful procedures -------------
+/inch {72 mul} def
+/fontSize 20 def
+/lineIncrement 24 def
+/vertpos 10 inch fontSize sub def
+/horzpos 1 inch def
+
+/choosefont {findfont fontSize scalefont setfont} def
+
+/newline
+  {/vertpos vertpos lineIncrement sub def % decrease vertpos
+  horzpos vertpos moveto } def
+
+% --------- Beginning of your PS program ----------
+
+% --------- The next few lines are some default initializations ----
+
+% -- if the client program set these values for font and initial position 
+% -- then you should remove these lines which will only be redundant ----
+horzpos vertpos moveto
+/Times-Roman choosefont
+% --------- the rest is the result of the client program. --
+
+(C Speaks out) show newline
+showpage

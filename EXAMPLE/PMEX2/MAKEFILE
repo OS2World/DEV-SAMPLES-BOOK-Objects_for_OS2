@@ -1,0 +1,32 @@
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+SMEMIT = ih;h;c;
+SRCS = window. client. app1.
+HDRS = $(SRCS:.=.ih)
+OBJS = $(SRCS:.=.obj) test2.obj
+
+install: test2.exe
+
+.SUFFIXES : .ih .lib .def .dll .idl
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+.idl.ih:
+    sc $*
+
+test2.exe: $(HDRS) $(OBJS)
+    link386 /NOL /NOI /CO /PM:PM test2.obj client.obj window.obj app1.obj, test2.exe, nul, somtk;
+
+window.ih: window.idl
+window.obj: window.c window.ih
+
+client.ih: client.idl
+client.obj: client.c client.ih
+
+app1.obj: app1.c app1.ih
+app1.ih: app1.idl
+
+test2.obj: test2.c
+
+

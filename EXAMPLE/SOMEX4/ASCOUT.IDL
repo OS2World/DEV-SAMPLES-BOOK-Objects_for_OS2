@@ -1,0 +1,21 @@
+#include <somobj.idl>
+interface AsciiSpeak: SOMObject
+{
+    readonly attribute somToken asciiFilePtr;
+
+    void outputAsciiBuffer(in string ascBuffer);
+
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+        _get_asciiFilePtr,
+        outputAsciiBuffer;
+
+    override: somInit;
+    override: somUninit;
+
+};
+#endif
+};
+

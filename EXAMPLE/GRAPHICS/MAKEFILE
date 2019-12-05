@@ -1,0 +1,44 @@
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+SMEMIT = ih;h;c;
+SRCS = graphic.c window.c client.c boxdraw.c
+HDRS = $(SRCS:.c=.ih)
+OBJS = $(SRCS:.c=.obj) test3.obj
+
+install: test3.exe
+
+.SUFFIXES : .ih .lib .def .dll .idl
+
+run:
+        test3
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+.idl.ih:
+    sc $*
+
+test3.exe: hdrs objs
+    link386 /NOL /NOI /CO /PM:PM $(OBJS), test3.exe, nul,somtk;
+
+hdrs: $(HDRS)
+        echo done >hdrs
+
+objs: $(OBJS)
+        echo done >objs
+
+window.ih: window.idl window.c
+window.obj: window.ih
+
+client.obj: client.ih client.c
+client.ih: client.idl
+
+graphic.obj: graphic.ih graphic.c
+graphic.ih: graphic.idl
+
+boxdraw.obj: boxdraw.ih boxdraw.c
+boxdraw.ih: boxdraw.idl
+
+test3.obj: test3.c
+
+

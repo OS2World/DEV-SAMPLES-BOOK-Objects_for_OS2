@@ -1,0 +1,30 @@
+/************/
+/** ex2.idl */
+/************/
+
+#include <somobj.idl>  // get definition of your parent
+
+interface ExampleTwo: SOMObject
+{
+    attribute string msg;
+    attribute long   mylong;
+
+    void xSayHi();
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class modifiers
+    releaseorder:
+        _get_msg, _set_msg,
+        _get_mylong, _set_mylong,
+        xSayHi;
+
+    //# Method Modifiers
+    somInit: override;
+
+};
+#endif
+
+};
+

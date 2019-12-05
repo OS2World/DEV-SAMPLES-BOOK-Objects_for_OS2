@@ -1,0 +1,22 @@
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+
+install: test3.exe
+
+run:
+        test3
+
+.c.obj:
+    icc -Ms -Q -Ti+ -c $<
+
+test3.exe: ex3.obj test3.obj
+    link386 /CO /PM:VIO test3.obj ex3.obj,test3.exe,nul,somtk;
+
+ex3.ih: ex3.idl
+    sc ex3
+
+ex3.obj: ex3.ih
+
+test3.obj: test3.c ex3.ih
+
+

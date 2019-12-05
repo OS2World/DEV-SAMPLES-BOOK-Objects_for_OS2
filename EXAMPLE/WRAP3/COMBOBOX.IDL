@@ -1,0 +1,49 @@
+
+/****************/
+/* COMBOBOX.IDL */
+/****************/
+
+#ifndef combobox_idl
+#define combobox_idl
+
+#include <entry.idl>    // get definition of your parents
+#include <listbox.idl>
+
+interface ComboBox;
+
+// Metaclass definition
+
+interface M_ComboBox: M_Window
+{
+
+#ifdef __SOMIDL__
+implementation {
+    //# Class Modifiers
+    filestem = combobox;
+    functionprefix = m_;
+
+    //# Method Modifiers
+    override: CreateWindow;
+};
+#endif
+};
+
+// Class definition
+
+interface ComboBox: EntryField, ListBox     // your classname and your parent(s)
+{
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    filestem = combobox;
+    metaclass = M_ComboBox;
+
+};
+#endif
+
+};
+
+#endif /* #ifndef combobox_idl */
+

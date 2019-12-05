@@ -1,0 +1,46 @@
+
+/***************/
+/* speaker.idl */
+/***************/
+
+#include <somobj.idl>  // the parent class definition
+#include <somcls.idl>  // the parent metaclass class definition
+
+interface Speaker;
+
+interface M_Speaker: SOMClass
+{
+    Speaker SpeakerCreate(in string message);
+    readonly attribute long numberObjs;
+    readonly attribute long numberTimesSpokeAll;
+
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+	SpeakerCreate,
+	_get_numberObjs,
+	_get_numberTimesSpokeAll; 
+};
+#endif
+};
+
+interface Speaker: SOMObject
+{
+    void speakToMe();
+    attribute string whatToSay;
+    readonly attribute long numberTimesSpoke;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    metaclass = M_Speaker;  //# identify Speaker's metaclass
+    releaseorder:
+	speakToMe,
+	_get_whatToSay, _set_whatToSay,
+	_get_numberTimesSpoke;
+};
+#endif
+
+};

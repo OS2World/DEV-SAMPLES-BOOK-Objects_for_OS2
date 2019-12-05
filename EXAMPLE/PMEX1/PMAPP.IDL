@@ -1,0 +1,42 @@
+/*****************/
+/*** pmapp.idl ***/
+/*****************/
+
+#include <somobj.idl>  // get definition of your parent
+
+typedef somToken HWND;  // get rid of the SOM compiler warnings
+typedef somToken HAB;
+typedef somToken HMQ;
+
+interface PMApp: SOMObject
+{
+    attribute HWND hwndFrame;   /* make these readonly eventually */
+    attribute HWND hwndClient;
+    attribute HAB  hab;
+    attribute HMQ  hmq;
+    attribute string className;
+
+#ifdef __SOMIDL__
+implementation
+{
+    // Class Modifiers
+    releaseorder:
+        _get_hwndFrame, _set_hwndFrame,
+        _get_hwndClient, _set_hwndClient,
+        _get_hab, _set_hab,
+        _get_hmq, _set_hmq,
+        _get_className, _set_className;
+
+    passthru C_h_before =
+        "  #define INCL_WIN"
+        "  #include <os2.h>"
+    ;
+
+    //# Method Modifiers
+    somInit: override;
+    somUninit: override;
+};
+#endif
+
+};
+

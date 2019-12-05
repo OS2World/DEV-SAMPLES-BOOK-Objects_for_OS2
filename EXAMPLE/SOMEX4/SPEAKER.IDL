@@ -1,0 +1,56 @@
+/***************/
+/* speaker.idl */
+/***************/
+
+#include <somcls.idl>  // the parent metaclass class definition
+
+#include <postscr.idl>  // the parent classes definitions
+#include <ascout.idl>
+
+interface Speaker;
+
+
+interface M_Speaker: SOMClass
+{
+    Speaker SpeakerCreate(in long speakLanguage);
+    readonly attribute long numberObjs;
+    readonly attribute long numberTimesSpokeAll;
+
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+        SpeakerCreate,
+        _get_numberObjs,
+        _get_numberTimesSpokeAll;
+};
+#endif
+};
+
+interface Speaker: PostScriptSpeak, AsciiSpeak
+{
+    void speakOut(in string whatToSay);
+    void setFontAndSize(in string font, in long fontSize);
+
+    enum languageSpoken{ascii, postscript};
+    attribute languageSpoken formatOut;
+
+    readonly attribute long numberTimesSpoke;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    metaclass = M_Speaker;  //# identify Speaker's metaclass
+    releaseorder:
+        speakOut, setFontAndSize,
+        _get_formatOut, _set_formatOut,
+        _get_numberTimesSpoke;
+
+    override: somInit;
+
+};
+#endif
+
+};
+

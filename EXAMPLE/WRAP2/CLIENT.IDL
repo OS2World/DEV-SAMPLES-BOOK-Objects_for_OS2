@@ -1,0 +1,36 @@
+
+/**************/
+/* CLIENT.IDL */
+/**************/
+
+#include <window.idl>  // get definition of your parent
+
+interface Client: Window  // your classname and your parent(s)
+{
+    void PaintWindow(in RECTL *rcl);
+    void ReSize(in short w, in short h);
+
+//# Event Handler Methods
+    void CharPress(in char key, in short kbmState);
+
+//# Control Events.  Command (WM_COMMAND) and Control Notifications (WM_CONTROL)
+    void PushedButton(in Window sourceWindow);
+    // this method gets called when a user presses down and up on a pushbutton.  The
+    // sourceWindow parameter indicates the particular SOMObject that was pressed.
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        PaintWindow, ReSize, CharPress, PushedButton;
+    classinit: clientInit;
+
+    //# Method Modifiers
+    somInit: override;
+};
+#endif
+
+};
+
+

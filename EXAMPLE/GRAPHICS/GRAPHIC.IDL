@@ -1,0 +1,66 @@
+/***************/
+/* GRAPHIC.IDL */
+/***************/
+
+#include <somobj.idl>  // get definition of your parent
+
+typedef somToken HPS;  // get rid of the SOM compiler warnings
+typedef somToken HWND;
+typedef somToken RECTL;
+typedef somToken POINTL;
+
+interface Window;
+
+interface Graphic: SOMObject  // your classname and your parent(s)
+{
+    attribute long currentX;
+    attribute long currentY;
+    attribute unsigned long  fgColor;
+    attribute unsigned long  bgColor;
+    attribute long   fgMixMode;    // FM_ constants from pmgpi.h
+    attribute long   drawControl;  // DRO_FILL, DRO_OUTLINE, or DRO_OUTLINEFILL
+    attribute Window grWin;  // the window this graphic object is associated with
+    attribute HPS    hps;          // the current presentation space
+
+//# Graphics Methods
+    void grClearWindow();
+        // clears current window using current background color
+
+    void grDrawLineAt(in short x1, in short y1, in short x2, in short y2);
+        // draws line from (x1,y1) to (x2,y2)
+
+    void grDrawBoxAt  (in short x1, in short y1, in short x2, in short y2);
+        // draws a box from (x1,y1) to (x2,y2)
+
+    void grDrawStringAt (in short x, in short y, in string textStr);
+        // draws textStr at point (x,y)
+
+#ifdef __SOMIDL__
+implementation
+{
+    releaseorder:
+        _get_currentX, _set_currentX,
+        _get_currentY, _set_currentY,
+        _get_fgColor, _set_fgColor,
+        _get_bgColor, _set_bgColor,
+        _get_fgMixMode, _set_fgMixMode,
+        _get_drawControl, _set_drawControl,
+        _get_grWin, _set_grWin,
+        _get_hps, _set_hps,
+        grClearWindow, grDrawLineAt, grDrawBoxAt, grDrawStringAt;
+
+    passthru C_h_before =
+        "  #define INCL_GPI"
+        "  #define INCL_WIN"
+        "  #include <window.h>"
+    ;
+    // important note.  a user must always include this before #include <window.h>
+
+    //# Method Modifiers
+    somInit: override;
+    somUninit: override;
+};
+#endif
+
+};
+

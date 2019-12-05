@@ -1,0 +1,29 @@
+/**************/
+/* CLIENT.IDL */
+/**************/
+
+#include <window.idl>  // get definition of your parent
+
+interface Client: Window  // your classname and your parent(s)
+{
+    void PaintWindow(in RECTL *rcl);
+    void ReSize(in short w, in short h);
+
+//# Control Events.  Command (WM_COMMAND) and Control Notifications (WM_CONTROL)
+    void PushedButton(in short id);
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        PaintWindow, ReSize, PushedButton;
+
+    //# Method Modifiers
+    somInit: override;
+};
+#endif
+
+};
+
+

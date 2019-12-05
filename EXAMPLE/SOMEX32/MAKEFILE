@@ -1,0 +1,20 @@
+################################################
+#  ###   MAKEFILE for two metaclass examples ###
+################################################
+CC = icc
+TARGET = hi.exe
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+hi.exe: speaker.obj main.obj
+    link386 /CO /PM:VIO speaker.obj main.obj,hi.exe,nul,somtk;
+
+speaker.obj: speaker.c speaker.ih
+
+speaker.ih: speaker.idl
+        sc speaker
+
+main.obj: main.c speaker.ih
+
+

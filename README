@@ -1,0 +1,76 @@
+The examples are located in the following directories:
+
+
+Directory:               Corresponding Chapter in the book:
+.\EXAMPLE
+.\EXAMPLE\SOMEX1                   9   SOM Intro I
+.\EXAMPLE\SOMEX2                   10  SOM Intro II
+.\EXAMPLE\SOMEX31                  11  Metaclasses I
+.\EXAMPLE\SOMEX32                  11  Metaclasses II
+.\EXAMPLE\SOMEX4                   12  Multiple Inheritance
+.\EXAMPLE\PMEX1                    13  Intro to PM
+.\EXAMPLE\PMEX2                    14  PM part II
+.\EXAMPLE\GRAPHICS                 15  PM using Gpi Graphics APIs
+.\EXAMPLE\WRAP1                    16  Study objects by wrapping a PM Control
+.\EXAMPLE\WRAP2                    17  Wrap part II
+.\EXAMPLE\WRAP3                    18  Wrap part III
+.\EXAMPLE\OS21  **                 19  File System
+.\EXAMPLE\OS22                     20  Interprocess Communication
+
+To build the demo program in any of these subdirectories, simply
+change directory to the desired directory and type "nmake".
+This will build the example program(s) (*.exe file) for that directory.
+
+NOTE on the PM programs.  To exit out of all of the PM programs use Alt-F4.
+
+Some environment variables you will want to set include: (assuming
+of course that you have the SOMobjects Toolkit installed on your
+D: drive in the D:\SOM directory)
+
+PATH=d:\SOM\BIN;%PATH%
+DPATH=d:\SOM\MSG;%DPATH%
+LIB=d:\SOM\LIB;%LIB%
+INCLUDE=d:\SOM\INCLUDE;%INCLUDE%
+SMINCLUDE=.;d:\SOM\INCLUDE;d:\toolkt21\sc;
+SOMIR=d:\SOM\ETC\som.ir;som.ir;
+SOMBASE=d:\SOM
+SMTMP=d:\SOM\TMP
+SMEMIT=h;ih;
+
+and in your config.sys LIBPATH= assignment add:
+ d:\som\dll   or
+ d:\som\lib
+
+depending on where you have your SOM DLLs stored.
+
+Also, these examples were all compiled with the IBM C Set/2 compiler
+
+--------------------------------------------------------------------------
+
+**  There is a known bug on this example.  It should be an easy one
+to fix.  When running "eaview" in the current directory the program
+works, but if you attempt to view the extended attributes on a directory
+that is not the current directory you may get errors.  For example:
+
+> eaview                          // will work on the current directory
+
+but
+
+> eaview c:\os2                   // will not work nor will ...
+> eaview c:\os2\*                 // this also will not work
+
+to see the extended attributes of the C:\os2 directory you must
+first change drive and directory to that location before executing
+the 'eaview' program.  As in the following sequence:
+
+> C:
+> CD \os2
+> eaview                 // works
+ ....
+> eaview *               // also works
+ ....
+> eaview *.exe           // works too!
+ ....
+
+
+

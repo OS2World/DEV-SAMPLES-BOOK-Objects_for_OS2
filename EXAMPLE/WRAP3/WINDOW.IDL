@@ -1,0 +1,119 @@
+
+/**************/
+/* WINDOW.IDL */
+/**************/
+#ifndef window_idl
+#define window_idl
+
+#include <somobj.idl>  // get definition of your parent
+#include <somcls.idl>  // parent of the metaclass
+
+typedef somToken HWND;  // here to get rid of the SOM compiler warnings
+typedef somToken HAB;
+typedef somToken HMQ;
+typedef somToken HPS;
+typedef somToken RECTL;
+typedef somToken BYTE;
+
+interface Window;
+
+interface M_Window: SOMClass
+{
+//# metaclass attributes
+    readonly attribute Window baseWindow;
+    readonly attribute HAB  hab;
+    readonly attribute HMQ  hmq;
+    readonly attribute long screenWidth;
+    readonly attribute long screenHeight;
+
+//# metaclass methods
+    Window CreateWindow(in Window parent, in Window owner, in long style, in string initText,
+                        in short x, in short y, in short w, in short h, in somToken userStruct);
+    void ProcessEvents();
+
+#ifdef __SOMIDL__
+    implementation {
+        functionprefix = m_;
+        filestem = window;
+        classinit: windowInit;
+        releaseorder:
+                _set_baseWindow, _get_baseWindow,
+                _get_hab, _get_hmq, 
+                _get_screenWidth, _get_screenHeight,
+                CreateWindow, ProcessEvents;
+
+    //# Data Modifiers
+        baseWindow:     nodata;
+        hab:            nodata;
+        hmq:            nodata;
+        screenWidth:   nodata;
+        screenHeight:   nodata;
+
+    };
+#endif
+};
+
+
+interface Window: SOMObject  // Window is a subclass of SOMObject
+{
+    attribute string text;
+    attribute long x;
+    attribute long y;
+    attribute long w;
+    attribute long h;
+    attribute HWND hwndFrame;
+    attribute HWND hwndWindow;
+    attribute HWND hwndParent;
+    attribute HWND hwndOwner;
+    attribute somToken userData;
+
+    short UniqueID();
+    Window WindowFromID(in short ID);
+
+    void SetSize(in long x, in long y, in long w, in long h);
+    void SetFocus();
+      // sets focus to the Window on which this method acts.
+
+    void SetColorFG( in BYTE r, in BYTE g, in BYTE b);
+    void SetColorBG( in BYTE r, in BYTE g, in BYTE b);
+
+
+#ifdef __SOMIDL__
+    implementation {
+
+    //# Class Modifiers
+    filestem = window;
+    metaclass = M_Window;
+    releaseorder:
+        _get_text, _set_text,
+        _get_x, _set_x,
+        _get_y, _set_y,
+        _get_w, _set_w,
+        _get_h, _set_h,
+        _get_hwndFrame, _set_hwndFrame,
+        _get_hwndWindow, _set_hwndWindow,
+        _get_hwndParent, _set_hwndParent,
+        _get_hwndOwner, _set_hwndOwner,
+        _get_userData, _set_userData,
+        UniqueID, WindowFromID,
+        SetSize, SetFocus, SetColorFG, SetColorBG;
+
+    //# Method Modifiers
+    somInit: override;
+    somUninit: override;
+
+    passthru C_h_before =
+        "  #define INCL_WIN"
+        "  #include <os2.h>"
+    ;
+
+    //# Data Modifiers
+        text:            nodata;
+
+    };
+#endif /* __SOMIDL__ */
+};
+
+#endif   /* #ifndef window_idl */
+
+

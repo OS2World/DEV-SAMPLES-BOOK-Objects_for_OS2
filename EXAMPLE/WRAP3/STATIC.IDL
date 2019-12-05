@@ -1,0 +1,47 @@
+
+/*************/
+/* STATIC.IDL */
+/*************/
+#ifndef static_idl
+#define static_idl
+
+#include <window.idl>  // get definition of your parent
+
+interface StaticText;
+
+// Metaclass definition
+
+interface M_StaticText: M_Window
+{
+
+#ifdef __SOMIDL__
+implementation {
+    //# Class Modifiers
+    filestem = static;
+    functionprefix = m_;
+
+    //# Method Modifiers
+    override: CreateWindow;
+};
+#endif
+};
+
+// Class definition
+
+interface StaticText: Window     // your classname and your parent(s)
+{
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    filestem = static;
+    metaclass = M_StaticText;
+
+};
+#endif
+
+};
+
+#endif /* #ifndef static_idl */
+

@@ -1,0 +1,30 @@
+#include <somobj.idl>
+
+interface M_Hello;
+
+interface Hello: SOMObject
+{
+    void sayHello();
+
+    attribute string msg;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //#Class Modifiers:
+    metaclass = M_Hello;  //# identify Hello's metaclass
+
+    somInit: override;
+    somUninit: override;
+};
+#endif
+};
+
+interface M_Hello
+// the metaclass for Hello
+{
+    Hello HelloCreate(in string message);
+    // This method creates an instance of the Hello class and
+    // uses 'message' parameter to initialize the Hello Objects
+};
+

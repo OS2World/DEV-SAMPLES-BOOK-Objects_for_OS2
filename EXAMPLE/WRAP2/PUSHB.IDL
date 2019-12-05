@@ -1,0 +1,50 @@
+
+/*************/
+/* PUSHB.IDL */
+/*************/
+
+#include <window.idl>  // get definition of your parent
+
+interface PushButton;
+
+// Metaclass definition
+
+interface M_PushButton: M_Window
+{
+
+#ifdef __SOMIDL__
+implementation {
+    //# Class Modifiers
+    filestem = pushb;
+    functionprefix = m_;
+
+    //# Method Modifiers
+    override: CreateWindow;
+};
+#endif
+};
+
+// Class definition
+
+interface PushButton: Window     // your classname and your parent(s)
+{
+    void DoPress();
+        // allow for programmatic press of push button
+    void DoRelease();
+        // allow for programmatic release push button
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    filestem = pushb;
+    metaclass = M_PushButton;
+    releaseorder:
+        DoPress, DoRelease;
+
+};
+#endif
+
+};
+
+

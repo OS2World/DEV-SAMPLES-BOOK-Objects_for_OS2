@@ -1,0 +1,37 @@
+% --------- Some useful procedures -------------
+/inch {72 mul} def
+/fontSize 20 def
+/lineIncrement 24 def
+/vertpos 10 inch fontSize sub def
+/horzpos 1 inch def
+
+/choosefont {findfont fontSize scalefont setfont} def
+
+/newline
+  {/vertpos vertpos lineIncrement sub def % decrease vertpos
+  horzpos vertpos moveto } def
+
+% --------- Beginning of your PS program ----------
+
+% --------- The next few lines are some default initializations ----
+
+% -- if the client program set these values for font and initial position 
+% -- then you should remove these lines which will only be redundant ----
+horzpos vertpos moveto
+/Times-Roman choosefont
+% --------- the rest is the result of the client program. --
+
+(Object A speaks out in default font) show newline
+/fontSize 50 def
+/lineIncrement 54 def
+/vertpos vertpos 30 sub def
+horzpos vertpos moveto
+/Helvetica-Oblique choosefont
+(Object A can talk big!) show newline
+/fontSize 5 def
+/lineIncrement 9 def
+/vertpos vertpos -45 sub def
+horzpos vertpos moveto
+/Times-Roman choosefont
+(or it can talk quite small!) show newline
+showpage

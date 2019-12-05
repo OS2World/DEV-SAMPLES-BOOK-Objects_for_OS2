@@ -1,0 +1,41 @@
+################################################
+#  ###   MAKEFILE for multiple inheritance
+#  multiply inherit from ascii and postscript formatter
+################################################
+CC = icc
+HDRS = speaker.ih postscr.ih ascout.ih
+OBJS = main.obj speaker.obj postscr.obj ascout.obj
+TARGET = multiout.exe
+SOMIR = $(SOMIR);b5.ir
+
+.SUFFIXES : .ih .sc .lib .def .dll .idl
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+.idl.ih:
+    sc -u $<
+
+multiout.exe: postscr.obj ascout.obj speaker.obj main.obj
+    link386 /CO /PM:VIO $(OBJS),multiout.exe,nul,somtk;
+
+somir: $(HDRS)
+        sc -usir *.idl
+
+hdrs: $(HDRS)
+
+speaker.obj: speaker.c speaker.ih
+
+speaker.ih: speaker.idl
+
+postscr.obj: postscr.c postscr.ih
+
+postscr.ih: postscr.idl
+
+ascout.obj: ascout.c ascout.ih
+
+ascout.ih: ascout.idl
+
+main.obj: main.c speaker.ih
+
+

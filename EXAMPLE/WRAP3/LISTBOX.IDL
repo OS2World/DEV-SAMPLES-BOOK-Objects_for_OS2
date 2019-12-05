@@ -1,0 +1,57 @@
+
+/*************/
+/* LISTBOX.IDL */
+/*************/
+#ifndef listbox_idl
+#define listbox_idl
+
+#include <window.idl>  // get definition of your parent
+
+interface ListBox;
+
+// Metaclass definition
+
+interface M_ListBox: M_Window
+{
+
+#ifdef __SOMIDL__
+implementation {
+    //# Class Modifiers
+    filestem = listbox;
+    functionprefix = m_;
+
+    //# Method Modifiers
+    override: CreateWindow;
+};
+#endif
+};
+
+// Class definition
+
+interface ListBox: Window     // your classname and your parent(s)
+{
+        short InsertItem(in string itemText, in short itemIndex);
+        // itemIndex can be the zero-based index indicating the
+        // desired placement of the itemText, or it can be one
+        // of the listbox constants: LIT_SORTASCENDING, LIT_SORTDESCENDING,
+        //     LIT_END.
+        void ClearList();
+        string GetItemSelected();
+
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    filestem = listbox;
+    metaclass = M_ListBox;
+    releaseorder:
+        InsertItem, ClearList, GetItemSelected;
+
+};
+#endif
+
+};
+
+#endif  /* listbox_idl */
+

@@ -1,0 +1,48 @@
+LIBRARY CTRL INITINSTANCE
+DESCRIPTION 'Wrapped Controls Class Library'
+PROTMODE
+DATA MULTIPLE NONSHARED LOADONCALL
+EXPORTS
+   ClientCClassData
+   ClientClassData
+   ClientNewClass
+   M_ClientCClassData
+   M_ClientClassData
+   M_ClientNewClass
+   ComboBoxCClassData
+   ComboBoxClassData
+   ComboBoxNewClass
+   M_ComboBoxCClassData
+   M_ComboBoxClassData
+   M_ComboBoxNewClass
+   EntryFieldCClassData
+   EntryFieldClassData
+   EntryFieldNewClass
+   M_EntryFieldCClassData
+   M_EntryFieldClassData
+   M_EntryFieldNewClass
+   ListBoxCClassData
+   ListBoxClassData
+   ListBoxNewClass
+   M_ListBoxCClassData
+   M_ListBoxClassData
+   M_ListBoxNewClass
+   PushButtonCClassData
+   PushButtonClassData
+   PushButtonNewClass
+   M_PushButtonCClassData
+   M_PushButtonClassData
+   M_PushButtonNewClass
+   StaticTextCClassData
+   StaticTextClassData
+   StaticTextNewClass
+   M_StaticTextCClassData
+   M_StaticTextClassData
+   M_StaticTextNewClass
+   WindowCClassData
+   WindowClassData
+   WindowNewClass
+   M_WindowCClassData
+   M_WindowClassData
+   M_WindowNewClass
+

@@ -1,0 +1,28 @@
+/**************/
+/* CLIENT.IDL */
+/**************/
+
+#include <window.idl>  // get definition of your parent
+
+interface Graphic;
+
+interface Client: Window  // your classname and your parent(s)
+{
+//# Event Handler Methods
+    void Button1Click(in short x, in short y); /* x,y when pressed */
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    releaseorder:
+        Button1Click;
+
+    //# Method Modifiers
+    somInit: override;
+    somUninit: override;
+};
+#endif
+
+};
+

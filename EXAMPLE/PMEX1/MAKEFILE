@@ -1,0 +1,27 @@
+#########################
+#### Makefile for PMApp  number one
+#########################
+
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+SMEMIT = ih;h;c;
+
+install: runpm.exe
+
+run:
+        runpm
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+runpm.exe: pmapp.obj runpm.obj
+    link386 /NOL /NOI /CO /PM:PM runpm.obj pmapp.obj,runpm.exe,nul,somtk;
+
+pmapp.ih: pmapp.idl
+    sc pmapp
+
+pmapp.obj: pmapp.ih
+
+runpm.obj: runpm.c
+
+

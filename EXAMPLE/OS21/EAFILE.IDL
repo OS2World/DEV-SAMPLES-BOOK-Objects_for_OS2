@@ -1,0 +1,83 @@
+#include <somcls.idl>
+#include <gfile.idl>
+
+interface EAFile;
+
+typedef somToken HDIR;  // get rid of the SOM compiler warnings
+
+interface M_EAFile: SOMClass
+{
+
+    EAFile getFirstFile(in string lookfor);
+    // retrieve the first file that matches a pattern indicated in
+    //     the string 'lookfor'.  Standard wildcards supported.
+    //     When using wildcards, you can cycle through all the files that
+    //     match the pattern, by following up with repeated calls to
+    //     getNextFile.
+    //     Also used for a single file.
+
+    EAFile getNextFile();
+    // must be used after getFirstFile
+
+#ifdef __SOMIDL__
+implementation
+{
+
+    releaseorder:
+        getFirstFile, getNextFile;
+
+    /* define an instance variable */
+    HDIR hdir;
+
+};
+#endif
+};
+
+interface EAFile: GenericFile
+{
+    readonly attribute long fileLength;
+    // can be queried but not gotten.
+
+    attribute long currentPosInFile;
+    // reading and writing to the file will be in reference
+    // to this current point.
+
+    readonly attribute long permissions;
+    // use flags for r/w/x permissions
+
+    readonly attribute long date;
+    // date last touched
+
+    string  readLine(in long lineLength);
+    // retrieves a line of text from the file.
+    // if lineLength set to -1 will read to the next newline
+
+    void writeLine(in somToken writeBuffer, in long bufferLength);
+    // for simple string buffers that are null terminated you
+    // could allow for a -1 bufferLength
+
+    void listEAs();
+    // make a listing of all of the extended attributes
+    // also return the listing in the form of an array
+    // of strings, terminated by a NULL
+
+    somToken getFirstEA(in string EAName);
+    somToken getNextEA();
+    somToken getEAValue(in somToken EAttr);
+    void addExAttr(in somToken EAttr, in somToken EAttrVal);
+
+#ifdef __SOMIDL__
+implementation
+{
+    metaclass = M_EAFile;  //# identify EAFile's metaclass
+    releaseorder:
+        _get_fileLength, _get_currentPosInFile, _set_currentPosInFile,
+        _get_permissions, _set_permissions, _get_date, _set_date,
+        readLine, writeLine, listEAs,
+        getFirstEA, getNextEA, getEAValue, addExAttr;
+
+    override: somInit;
+};
+#endif
+};
+

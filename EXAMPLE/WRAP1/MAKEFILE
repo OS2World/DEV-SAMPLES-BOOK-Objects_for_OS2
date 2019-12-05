@@ -1,0 +1,42 @@
+## ****************
+## Makefile
+## ****************
+
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+SMEMIT = ih;h;c;
+SRCS = window. client. pushb. app1.
+HDRS = $(SRCS:.=.ih)
+OBJS = $(SRCS:.=.obj) test4.obj
+
+install: test4.exe
+
+.SUFFIXES : .ih .sc .ph .lib .def .dll .idl .pdl
+
+run:
+        test4
+
+.c.obj:
+    icc -Q -Ti+ -c $<
+
+.idl.ih:
+    sc $*
+
+test4.exe: $(OBJS)
+    link386 /NOL /NOI /CO /PM:PM $(OBJS), test4.exe, nul,somtk;
+
+window.ih: window.idl
+window.obj: window.ih
+
+client.obj: client.ih
+client.ih: client.idl
+
+pushb.obj: pushb.ih
+pushb.ih: pushb.idl
+
+app1.obj: app1.ih
+app1.ih: app1.idl
+
+test4.obj: test4.c
+
+

@@ -1,0 +1,65 @@
+
+/************/
+/* APP1.IDL */
+/************/
+
+#ifndef app1_idl
+#define app1_idl
+#include <client.idl>  // get definition of your parent
+
+interface StaticText;
+interface EntryField;
+interface ListBox;
+interface ComboBox;
+
+interface App1;
+
+// Metaclass definition
+
+interface M_App1: M_Client
+{
+
+#ifdef __SOMIDL__
+implementation {
+    //# Class Modifiers
+    filestem = app1;
+    functionprefix = m_;
+
+    //# Method Modifiers
+    override: CreateWindow;
+};
+#endif
+};
+
+interface App1: Client // App1 is a subclass of Client
+{
+    attribute short timesPressed;
+
+#ifdef __SOMIDL__
+implementation
+{
+    //# Class Modifiers
+    metaclass = M_App1;
+    filestem = app1;
+    releaseorder:
+        _get_timesPressed, _set_timesPressed;
+
+    //# Method Modifiers
+
+    PushedButton:     override;
+    EnterKeyPressed:  override;
+    ListItemSelected: override;
+
+    //# Instance variables
+
+    StaticText msgField;
+    EntryField ef;
+    ListBox lb;
+    ComboBox cb;
+
+};
+#endif
+};
+
+#endif  /* #ifndef app1_idl */
+

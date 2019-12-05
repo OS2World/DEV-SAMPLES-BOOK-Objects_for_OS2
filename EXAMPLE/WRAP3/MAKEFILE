@@ -1,0 +1,63 @@
+
+# #############################
+#  MAKEFILE for wrapped controls example three
+# #############################
+
+LIB = $(LIB)
+INCLUDE = .;$(INCLUDE)
+SMEMIT = ih;h;c;
+SRCS = window. entry. static. listbox. pushb. combobox. client.
+HDRS = $(SRCS:.=.ih) app1.ih
+OBJS = $(SRCS:.=.obj)
+
+install: wrap3.exe
+
+.SUFFIXES : .ih .sc .lib .def .dll .idl
+
+all: ctrl.dll wrap3.exe
+
+.c.obj:
+    icc -Gs- -Ge- -Q -Ti+ -c $<
+
+.idl.ih:
+    sc $*
+
+wrap3.exe: $(HDRS) ctrl.dll ctrl.lib app1.obj wrap3.obj
+    link386 /NOL /NOI /CO /PM:PM app1.obj wrap3.obj, wrap3.exe, nul,somtk ctrl;
+
+ctrl.dll: $(SRCS:.=.obj)
+    link386 /NOL /NOI /CO /PM:PM $(OBJS), ctrl.dll, nul,somtk, ctrl.def
+    implib /nologo ctrl.lib ctrl.def
+
+ctrl.lib: ctrl.def
+    implib /nologo ctrl.lib ctrl.def
+
+window.ih: window.idl
+window.obj: window.ih window.c
+
+client.ih: client.idl
+client.obj: client.ih client.c
+
+entry.ih: entry.idl
+entry.obj: entry.ih entry.c
+
+static.ih: static.idl
+static.obj: static.ih static.c
+
+listbox.ih: listbox.idl
+listbox.obj: listbox.ih listbox.c
+
+combobox.ih: combobox.idl
+combobox.obj: combobox.ih combobox.c
+
+pushb.ih: pushb.idl
+pushb.obj: pushb.ih pushb.c
+
+app1.ih: app1.idl
+app1.obj: app1.ih app1.c
+    icc -Q -Ti+ -c $*.c
+
+wrap3.obj: wrap3.c
+    icc -Q -Ti+ -c $*.c
+
+
